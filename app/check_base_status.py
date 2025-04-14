@@ -89,7 +89,7 @@ def execute_cluster_status_checks(helper: AzKubeCtlHelper):
         
     except Exception as e:
         print(f"An error occurred during status checks: {e}")
-        sys.exit(1)
+        raise
 
 def execute_base_status_checks(alert_details:dict):
 

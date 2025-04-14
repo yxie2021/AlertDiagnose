@@ -54,7 +54,7 @@ if base_check_button:
     if not alert_text:
         st.error("Please paste the alert information first.")
     else:
-        st.info("Performing Base Check...")
+        # st.info("Performing Base Check...")
         
         # Construct command for check_base_status.py
         command_list = [
