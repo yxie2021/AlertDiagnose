@@ -1,0 +1,11 @@
+Prereq:
+Azure CLI and extensions
+
+Run:
+az config set extension.use_dynamic_install=yes_without_prompt
+To allow automatic install extensions
+
+List AKS maintenanceWindow uses extension:
+az aks maintenanceconfiguration list --cluster-name
+                                     --resource-group
+                                    

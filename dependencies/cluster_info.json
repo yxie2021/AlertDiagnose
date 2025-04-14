@@ -1,0 +1,62 @@
+[
+    {
+        "subscription_id": "8715ef5a-4a54-433f-9587-e785e615b6fc",
+        "subscription_name": "RallyHere-Admin",
+        "resource_group": "shared_galaxy_rh_admin-79dae482",
+        "aks_cluster_name": "rallyhere_admin_b"
+    },
+    {
+        "subscription_id": "bc60d942-8775-469e-9d1a-77f21c1a2a82",
+        "subscription_name": "Compacted",
+        "resource_group": "compacted",
+        "aks_cluster_name": "compacted_b"
+    },
+    {
+        "subscription_id": "e0709e0c-c7aa-4473-a0f2-6df07941d0fd",
+        "subscription_name": "RH-HiRez",
+        "resource_group": "hirez",
+        "aks_cluster_name": "hirez_b"
+    },
+    {
+        "subscription_id": "6c48fa23-8a51-4422-a79b-48736ec6f2d9",
+        "subscription_name": "Prophecy",
+        "resource_group": "prophecy",
+        "aks_cluster_name": "prophecy_c"
+    },
+    {
+        "subscription_id": "833c6106-b753-4d2b-8b33-5d0c0a3aa1ad",
+        "subscription_name": "ServerTeam",
+        "resource_group": "shared_galaxy_rallydev-ab66628c",
+        "aks_cluster_name": "rallyhere_dev_b"
+    },
+    {
+        "subscription_id": "56e494a0-9404-4a01-9b1e-b7f9e6333982",
+        "subscription_name": "RallyHere",
+        "resource_group": "rallyhere_central",
+        "aks_cluster_name": "rallyhere_central_b"
+    },
+    {
+        "subscription_id": "56e494a0-9404-4a01-9b1e-b7f9e6333982",
+        "subscription_name": "RallyHere",
+        "resource_group": "rallyhere_central",
+        "aks_cluster_name": "rallyhere_central_a"
+    },
+    {
+        "subscription_id": "2ed3a571-5670-4c67-bcfa-8e7126bdddd6",
+        "subscription_name": "HiRez-Primary-Subscription(Converted to EA)",
+        "resource_group": "platform_tools",
+        "aks_cluster_name": "devops_aks"
+    },
+    {
+        "subscription_id": "2ed3a571-5670-4c67-bcfa-8e7126bdddd6",
+        "subscription_name": "HiRez-Primary-Subscription(Converted to EA)",
+        "resource_group": "platform_tools",
+        "aks_cluster_name": "hirez_tools_b"
+    },
+    {
+        "subscription_id": "2ed3a571-5670-4c67-bcfa-8e7126bdddd6",
+        "subscription_name": "HiRez-Primary-Subscription(Converted to EA)",
+        "resource_group": "shared_galaxy_roco-9bd17ad0",
+        "aks_cluster_name": "rally_shared_roco_c"
+    }
+]

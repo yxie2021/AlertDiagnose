@@ -1,0 +1,39 @@
+To check whether an Azure Kubernetes Service (AKS) cluster is undergoing or has scheduled regular maintenance, here are a few ways to find out:
+
+🧰 1. Check Maintenance Configuration (AKS Maintenance Window)
+AKS allows configuring planned maintenance windows. You can check the maintenance configuration using the Azure CLI:
+
+bash
+Copy
+Edit
+az aks show --name <cluster-name> --resource-group <resource-group> --query maintenanceWindow
+This will show if there is a maintenance window configured (like specific days/times when updates are allowed).
+
+📝 2. Look for Ongoing Node Upgrades / Repairs
+You can check if the cluster is currently being maintained (e.g., nodes being upgraded) using:
+
+bash
+Copy
+Edit
+az aks nodepool list --resource-group <resource-group> --cluster-name <cluster-name> --output table
+Look for Upgrade in Progress, Updating, or changes in PowerState or ProvisioningState.
+
+🔍 3. Use Azure Activity Log
+Go to the Activity Log in the Azure portal for your AKS resource group:
+
+Filter by “AKS” and look for operations like UpgradeCluster, UpgradeNodePool, Patch, or Reimage.
+
+This can show if Azure performed maintenance recently.
+
+📦 4. Check Node Kubelet Versions
+Maintenance can include automatic patching or updates. Compare node versions:
+
+bash
+Copy
+Edit
+kubectl get nodes -o wide
+Look for inconsistent VERSION fields or recent changes which could mean nodes were rotated or updated.
+
+🛠 5. Azure Service Health Alerts
+If you've set up Service Health alerts, you can check if any were triggered for planned or unplanned maintenance affecting your cluster.
+

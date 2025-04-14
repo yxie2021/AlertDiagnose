@@ -1,0 +1,6 @@
+azure-identity
+azure-mgmt-resource
+azure-mgmt-containerservice
+streamlit
+python-dateutil
+cryptography==37.0.4

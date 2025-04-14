@@ -1,0 +1,61 @@
+Debugging a hanging AKS (Azure Kubernetes Service) job requires a systematic approach. Here's how to troubleshoot and resolve jobs that remain stuck in the running state:
+1. Check the Job and Pod Status
+First, get detailed information about the job:
+bash: kubectl get job <job-name> -n <namespace> -o yaml
+kubectl describe job <job-name> -n <namespace>
+Then check the associated pods:
+bash: kubectl get pods -n <namespace> | grep <job-name>
+kubectl describe pod <job-name-pod-id> -n <namespace>
+2. Examine Pod Logs
+Check the logs of the running pod to see what it's doing:
+bash kubectl logs <pod-name> -n <namespace>
+# For previous logs if the container has restarted
+kubectl logs <pod-name> -n <namespace> --previous
+
+To check whether container has restarted:
+Get Detailed Pod Information
+bash kubectl describe pod <pod-name> -n <namespace>
+In the output, look for:
+
+The "Restart Count" field for each container
+The "Last State" section which shows information about the previous container instance
+"State" and "Ready" status, which can indicate current container health
+
+3. Look for Resource Constraints
+Check if the job is waiting for resources:
+
+Is the node out of CPU/memory?
+Are there PersistentVolumeClaims pending?
+
+bashkubectl describe nodes
+kubectl get pvc -n <namespace>
+4. Check for Deadlocks or Infinite Loops
+
+Does the job seem to be in an infinite loop?
+Is it waiting for an external resource that never responds?
+Are there missing environment variables or configuration?
+
+5. Verify Network Connectivity
+For jobs that communicate with external services:
+bash# Exec into the pod
+kubectl exec -it <pod-name> -n <namespace> -- sh
+# Then test connectivity
+ping <service>
+curl <endpoint>
+6. Common Solutions
+
+Force job termination:
+bashkubectl delete job <job-name> -n <namespace>
+
+Fix timeouts:
+Add .spec.activeDeadlineSeconds to your job specification to automatically terminate after a specific time
+Implement retry logic:
+Use .spec.backoffLimit to control retry attempts
+Check application exit conditions:
+Ensure your application code properly exits when complete
+Review the code:
+Look for issues in signal handling, thread management, or clean termination
+Check dependency services:
+Verify that all external services the job depends on are functioning
+
+If you provide more specific details about your AKS job (like what it's supposed to do, logs, or configuration), I can give more targeted advice.RetryClaude can make mistakes. Please double-check responses. 3.7 Sonnet
