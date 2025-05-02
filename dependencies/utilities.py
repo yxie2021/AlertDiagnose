@@ -1,12 +1,10 @@
-import os
-import subprocess
-import json
-import sys # Keep sys import for potential future platform checks if needed
 
 # Note: Consider adding find_executable_path here too if needed by login_to_azure
 # For now, assuming 'az' is findable by subprocess based on diagnose_exception.py logic
 
 import os
+import subprocess
+import sys
 import json
 import re
 from azure.identity import AzureCliCredential, UsernamePasswordCredential, InteractiveBrowserCredential
@@ -112,38 +110,44 @@ def get_azure_token(az_path: str = None):
         return None
     except Exception as e:
         print(f"An unexpected error occurred while getting access token: {e}")
-        return None 
-    
+        return None
+
+
 def find_executable_path(executable_name):
     """
-    Uses 'where' command on Windows to find the full path of an executable.
-    executable_name should include the extension
+    Finds the full path of an executable on both Windows and Linux systems.
+    On Windows, uses the 'where' command and preserves extensions.
+    On Linux-like systems, uses the 'which' command and strips Windows extensions.
     """
-    if sys.platform != "win32":
-        print(f"Warning: 'find_executable_path' relies on 'where' command (Windows only). Trying '{executable_name}' directly.")
-        return executable_name
+    # Determine the appropriate command based on platform
+    if sys.platform == "win32":
+        command = "where"
+        search_name = executable_name  # Keep the extension on Windows
+    else:  # Linux, macOS, and other Unix-like systems
+        command = "which"
+        # Strip Windows-specific extensions for Linux search
+        base_name = os.path.splitext(executable_name)[0]
+        search_name = base_name  # On Linux, search without the extension
 
-    # On Windows, prefer .cmd or .bat if looking for 'az'
-    search_name = executable_name
     try:
-        # print(f"Locating '{search_name}' executable using 'where' command...")
-        result = subprocess.run(["where", search_name], capture_output=True, text=True, check=True, encoding='utf-8')
+        # print(f"Locating '{search_name}' executable using '{command}' command...")
+        result = subprocess.run([command, search_name], capture_output=True, text=True, check=True, encoding='utf-8')
         paths = result.stdout.strip().splitlines()
         if paths:
             first_path = paths[0].strip()
             # print(f"Found '{search_name}' at: {first_path}")
             return first_path
         else:
-            # print(f"Warning: 'where {search_name}' ran but returned no paths.")            
+            # print(f"Warning: '{command} {search_name}' ran but returned no paths.")
             return None
     except FileNotFoundError:
-        print(f"Error: 'where' command not found. Cannot locate '{search_name}'.")
+        print(f"Error: '{command}' command not found. Cannot locate '{search_name}'.")
         return None
     except subprocess.CalledProcessError:
-        print(f"Error: 'where' command could not find '{search_name}'. Is it installed and in PATH?")
+        print(f"Error: '{command}' command could not find '{search_name}'. Is it installed and in PATH?")
         return None
     except Exception as e:
-        print(f"An unexpected error occurred while running 'where {search_name}': {e}")
+        print(f"An unexpected error occurred while running '{command} {search_name}': {e}")
         return None
     
 def run_command(command, shell=False, check=True):
@@ -186,14 +190,14 @@ def get_cluster_info(cluster_name):
 
     for cluster_entry in cluster_data:
         if cluster_entry.get('aks_cluster_name', '').lower() == cluster_name.lower():
+
             subscription_id = cluster_entry.get('subscription_id')
             resource_group = cluster_entry.get('resource_group')
             cluster_info ={"subscription_id": subscription_id, "resource_group": resource_group}
             return cluster_info
 
-
     raise Exception(f"Error: Cluster '{cluster_name}' not found or missing details in {cluster_info_path}")
-    return None
+
 
 def setup_az_context(subscription_id, resource_group, cluster_name, az_path: str = None):
     az_path = _ensure_az_path(az_path)

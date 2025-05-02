@@ -6,7 +6,7 @@ from azure.mgmt.resource import ResourceManagementClient, SubscriptionClient
 from azure.mgmt.containerservice import ContainerServiceClient
 from dependencies.utilities import login_to_azure
 
-FILE_PATH = "dependencies/cluster_info.json"
+FILE_PATH = "../../dependencies/cluster_info.json"
 
 def get_aks_clusters():
     """Uses login_to_azure helper to get SDK credential, then lists clusters."""
